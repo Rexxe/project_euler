@@ -1,0 +1,8 @@
+a,b,c in natural
+- None can be zero because that would imply b=c which betrays our inequality
+
+a < c-1
+b <= c-1
+
+(c-1) + (c-1) + c < 1000
+=> c < 334

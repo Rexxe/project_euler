@@ -1,0 +1,9 @@
+[package]
+name = "sandbox"
+version = "0.1.0"
+authors = ["Adam Schrum <aschrum@ameritechds.com>"]
+edition = "2018"
+
+[dependencies]
+fine_grained = "0.1.2"
+primal = "0.2.3"

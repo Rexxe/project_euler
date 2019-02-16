@@ -1,10 +1,10 @@
 // Assumes file format of
 /*
-    Grid 01
+    Matrx Name 1
     003020600
     900305001
-    ...
-    Grid 02
+    ... (7 more lines of 9 single-digit numbers each)
+    Matrx Name 2
     ...
 */
 
@@ -42,8 +42,10 @@ pub mod matrix_loader {
                 Err(e) => return Err(e.to_string())
             };
         }
+        // Push the final one, were there any lines
+        if current_matrix.name != "" {
+            vec.push(current_matrix.clone());
+        }
         Ok(vec)
     }
-
-
 }

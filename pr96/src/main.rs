@@ -7,9 +7,7 @@ use matrix::matrices::Matrix;
 use matrix_load::matrix_loader;
 
 fn main() {
-    // let mut puzz_current =  Matrix { vals: [[0u8; 9]; 9] };
-    // println!("{}", puzz_current);
-    let mut puzzles : Vec<Matrix> = matrix_loader::load_in_matrices();
+    let mut puzzles : Vec<Matrix> = matrix_loader::load_in_matrices().unwrap();
     for mat in puzzles {
         print!("{}", mat);
     }

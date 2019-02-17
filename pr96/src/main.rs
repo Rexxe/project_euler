@@ -7,15 +7,14 @@ mod matrix_load;
 mod sudoku;
 
 use matrix::Matrix;
-use matrix_load::{load_in_matrices};
-use sudoku::{solve_sudoku};
+use matrix_load::load_in_matrices;
+use sudoku::solve_sudoku;
 
 fn main() {
-    let mut matrices : Vec<Matrix> = load_in_matrices().unwrap();
+    let mut matrices: Vec<Matrix> = load_in_matrices().unwrap();
     let mut matrix_iter = matrices.iter_mut();
     while let Some(mut mat) = matrix_iter.next() {
         solve_sudoku(&mut mat);
-
 
         println!("{}", *mat);
         break; // For the moment, break on the first loop so we can debug more easily

@@ -5,8 +5,8 @@ use unicode_segmentation::UnicodeSegmentation;
 
 #[derive(Clone)]
 pub struct Matrix {
-    pub vals : [[u8; 9]; 9],
-    pub name : String,
+    pub vals: [[u8; 9]; 9],
+    pub name: String,
 }
 
 // fn for loading in data row by row
@@ -15,17 +15,18 @@ impl Matrix {
         let digit_vector: Vec<&str> =
             UnicodeSegmentation::graphemes(row_to_load, true).collect::<Vec<&str>>();
         if digit_vector.len() != 9 {
-            return Err(
-                format!("row_to_load is of length {} and must be of length 9",
-                    row_to_load.len()));
+            return Err(format!(
+                "row_to_load is of length {} and must be of length 9",
+                row_to_load.len()
+            ));
         }
-        let mut parser : String = String::with_capacity(1);
-        let mut col_index : usize = 0;
+        let mut parser: String = String::with_capacity(1);
+        let mut col_index: usize = 0;
         for digit in digit_vector {
             parser.push_str(digit);
             self.vals[row_index][col_index] = parser.parse::<u8>().unwrap();
             parser.clear();
-            col_index+=1;
+            col_index += 1;
         }
         Ok(true)
     }
@@ -44,11 +45,23 @@ impl fmt::Display for Matrix {
                     continue 'row_write;
                 }
             }
-            write!(f, "{}", &format!("|{}{}{}|{}{}{}|{}{}{}|\n",
-                self.vals[i][0], self.vals[i][1], self.vals[i][2],
-                self.vals[i][3], self.vals[i][4], self.vals[i][5],
-                self.vals[i][6], self.vals[i][7], self.vals[i][8]))
-                .expect(&format!("Write of row {} failed", i));
+            write!(
+                f,
+                "{}",
+                &format!(
+                    "|{}{}{}|{}{}{}|{}{}{}|\n",
+                    self.vals[i][0],
+                    self.vals[i][1],
+                    self.vals[i][2],
+                    self.vals[i][3],
+                    self.vals[i][4],
+                    self.vals[i][5],
+                    self.vals[i][6],
+                    self.vals[i][7],
+                    self.vals[i][8]
+                )
+            )
+            .expect(&format!("Write of row {} failed", i));
         }
         Ok(())
     }

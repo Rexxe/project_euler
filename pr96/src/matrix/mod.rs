@@ -1,8 +1,8 @@
 extern crate unicode_segmentation;
 
+use crate::sudoku::Step;
 use std::fmt;
 use unicode_segmentation::UnicodeSegmentation;
-use crate::sudoku::Step;
 
 #[derive(Clone)]
 pub struct Matrix {
@@ -12,10 +12,11 @@ pub struct Matrix {
 
 impl Matrix {
     // fn for taking an action
-    pub fn take_action<'a>(&mut self,
-        steps_to_take :  &mut Vec<Step<'a>>,
-        steps_taken : &mut Vec<Step<'a>>) {
-
+    pub fn take_action<'a>(
+        &mut self,
+        steps_to_take: &mut Vec<Step<'a>>,
+        steps_taken: &mut Vec<Step<'a>>,
+    ) {
         for step in steps_to_take.clone() {
             self.vals[step.row][step.col] = step.val;
         }

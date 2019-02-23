@@ -14,8 +14,8 @@ fn main() {
     let mut matrices: Vec<Matrix> = load_in_matrices().unwrap();
     let mut matrix_iter = matrices.iter_mut();
     while let Some(mut mat) = matrix_iter.next() {
+        println!("{}", *mat);
         solve_sudoku(&mut mat);
-
         println!("{}", *mat);
         break; // For the moment, break on the first loop so we can debug more easily
     }

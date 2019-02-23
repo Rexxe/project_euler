@@ -2,6 +2,7 @@ extern crate unicode_segmentation;
 
 use std::fmt;
 use unicode_segmentation::UnicodeSegmentation;
+use crate::sudoku::Step;
 
 #[derive(Clone)]
 pub struct Matrix {
@@ -9,8 +10,19 @@ pub struct Matrix {
     pub name: String,
 }
 
-// fn for loading in data row by row
 impl Matrix {
+    // fn for taking an action
+    pub fn take_action<'a>(&mut self,
+        steps_to_take :  &mut Vec<Step<'a>>,
+        steps_taken : &mut Vec<Step<'a>>) {
+
+        for step in steps_to_take.clone() {
+            self.vals[step.row][step.col] = step.val;
+        }
+        steps_taken.append(steps_to_take);
+    }
+
+    // fn for loading in data row by row
     pub fn load_row(&mut self, row_to_load: &str, &row_index: &usize) -> Result<bool, String> {
         let digit_vector: Vec<&str> =
             UnicodeSegmentation::graphemes(row_to_load, true).collect::<Vec<&str>>();
@@ -50,15 +62,42 @@ impl fmt::Display for Matrix {
                 "{}",
                 &format!(
                     "|{}{}{}|{}{}{}|{}{}{}|\n",
-                    self.vals[i][0],
-                    self.vals[i][1],
-                    self.vals[i][2],
-                    self.vals[i][3],
-                    self.vals[i][4],
-                    self.vals[i][5],
-                    self.vals[i][6],
-                    self.vals[i][7],
-                    self.vals[i][8]
+                    match self.vals[i][0] {
+                        0 => String::from(" "),
+                        _ => self.vals[i][0].to_string(),
+                    },
+                    match self.vals[i][1] {
+                        0 => String::from(" "),
+                        _ => self.vals[i][1].to_string(),
+                    },
+                    match self.vals[i][2] {
+                        0 => String::from(" "),
+                        _ => self.vals[i][2].to_string(),
+                    },
+                    match self.vals[i][3] {
+                        0 => String::from(" "),
+                        _ => self.vals[i][3].to_string(),
+                    },
+                    match self.vals[i][4] {
+                        0 => String::from(" "),
+                        _ => self.vals[i][4].to_string(),
+                    },
+                    match self.vals[i][5] {
+                        0 => String::from(" "),
+                        _ => self.vals[i][5].to_string(),
+                    },
+                    match self.vals[i][6] {
+                        0 => String::from(" "),
+                        _ => self.vals[i][6].to_string(),
+                    },
+                    match self.vals[i][7] {
+                        0 => String::from(" "),
+                        _ => self.vals[i][7].to_string(),
+                    },
+                    match self.vals[i][8] {
+                        0 => String::from(" "),
+                        _ => self.vals[i][8].to_string(),
+                    },
                 )
             )
             .expect(&format!("Write of row {} failed", i));

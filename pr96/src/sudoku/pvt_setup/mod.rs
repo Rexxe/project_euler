@@ -14,7 +14,6 @@ pub fn pvt_full_calc_pvs(puzzle : &Matrix, mut pvt : &mut Vec<Vec<Option<Vec<u8>
 }
 
 pub fn pvt_cell_calc_pvs(puzzle : &Matrix, pvt : &mut Vec<Vec<Option<Vec<u8>>>>, &row: &usize, &col: &usize) {
-    if puzzle.vals[row][col] != 0 { return; }
     // All values are considered possible and then removed under the following conditions
     let mut possible_vals : &mut Vec<u8> = match &mut pvt[row][col] {
         Some(previous_vals) => {
@@ -27,8 +26,8 @@ pub fn pvt_cell_calc_pvs(puzzle : &Matrix, pvt : &mut Vec<Vec<Option<Vec<u8>>>>,
         },
     };
 
-    pvt_cell_check_col(&puzzle, &mut possible_vals, &row, &col);
-    pvt_cell_check_row(&puzzle, &mut possible_vals, &row, &col);
+    pvt_cell_check_col(&puzzle, &mut possible_vals, &col);
+    pvt_cell_check_row(&puzzle, &mut possible_vals, &row);
     pvt_cell_check_sqr(&puzzle, &mut possible_vals, &row, &col);
 
     if possible_vals.len() == 0 { pvt[row][col] = None; }
@@ -43,7 +42,6 @@ pub fn pvt_cell_check_sqr(puzzle : &Matrix,
 
     for r in row_start..(row_start+3) {
         for c in col_start..(col_start+3) {
-            if r == row && c == col { continue; }
             possible_vals.retain(|&x| x != puzzle.vals[r][c]);
         }
     }
@@ -51,20 +49,18 @@ pub fn pvt_cell_check_sqr(puzzle : &Matrix,
 
 pub fn pvt_cell_check_col(puzzle : &Matrix,
     possible_vals : &mut Vec<u8>,
-    &row: &usize, &col: &usize) {
+    &col: &usize) {
 
     for r in 0..9 {
-        if r == row { continue; }
         possible_vals.retain(|&x| x != puzzle.vals[r][col]);
     }
 }
 
 pub fn pvt_cell_check_row(puzzle : &Matrix,
     possible_vals : &mut Vec<u8>,
-    &row: &usize, &col: &usize) {
+    &row: &usize) {
 
     for c in 0..9 {
-        if c == col { continue; }
         possible_vals.retain(|&x| x != puzzle.vals[row][c]);
     }
 }

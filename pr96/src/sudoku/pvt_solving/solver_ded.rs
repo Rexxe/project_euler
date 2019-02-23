@@ -1,4 +1,3 @@
-use crate::matrix::Matrix;
 use crate::sudoku::{Step, MethodType};
 
 pub fn trivial_ded<'a>(possible_vals : &mut Vec<Vec<Option<Vec<u8>>>>

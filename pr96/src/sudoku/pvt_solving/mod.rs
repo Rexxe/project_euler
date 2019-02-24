@@ -1,6 +1,6 @@
 use crate::sudoku::{MethodType, Step};
 
-pub fn trivial_ded<'a>(possible_vals: &mut Vec<Vec<Option<Vec<u8>>>>) -> Option<Vec<Step<'a>>> {
+pub fn deduct<'a>(possible_vals: &mut Vec<Vec<Option<Vec<u8>>>>) -> Option<Vec<Step<'a>>> {
     let mut steps_taken: Vec<Step> = Vec::new();
     for r in (0 as usize)..(9 as usize) {
         for c in (0 as usize)..(9 as usize) {

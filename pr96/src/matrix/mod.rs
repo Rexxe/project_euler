@@ -1,6 +1,6 @@
 extern crate unicode_segmentation;
 
-use crate::sudoku::Step;
+use crate::sudoku::{Step, MethodType};
 use std::fmt;
 use unicode_segmentation::UnicodeSegmentation;
 
@@ -22,6 +22,21 @@ impl Matrix {
         }
         steps_taken.append(steps_to_take);
     }
+
+    pub fn undo_actions_to_concrete_state<'a>(&mut self, all_steps_taken: &mut Vec<Step<'a>>) {
+        let concrete_pos : usize = all_steps_taken.iter().enumerate()
+            .skip_while(|(pos, s)| !s.method.IsGuess())
+            .take(1).next().unwrap().0;
+
+
+
+
+
+    }
+
+    // pub fn get_guess_number() {
+    //
+    // }
 
     // fn for loading in data row by row
     pub fn load_row(&mut self, row_to_load: &str, &row_index: &usize) -> Result<bool, String> {

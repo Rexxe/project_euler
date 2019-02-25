@@ -12,6 +12,75 @@
     We can see that 28 is the first triangle number to have over five divisors.
     What is the value of the first triangle number to have over five hundred divisors? */
 
+extern crate primal;
+
+mod factorize;
+
 fn main() {
-    println!("Hello, world!");
+    let mut counter = TriangleCounter::new();
+    let mut current_number : usize;
+
+    let mut max_so_far : usize = 0;
+
+    loop {
+        current_number = counter.next().unwrap();
+        if max_so_far > current_number {
+            println!("Wrapping began at {:?}", max_so_far);
+        }
+        max_so_far = current_number;
+
+
+        // println!("Current number = {}", );
+
+
+
+        // if counter.increment % 1_000_000_000 == 0 {
+        //     println!("{:?}", counter.increment);
+        // }
+    }
+
+
+
+
+    // println!("Hello, world!");
+}
+
+struct TriangleCounter {
+    increment: usize,
+    current: usize,
+    sieve_prime: primal::Sieve,
+    sieve_from: usize,
+}
+
+impl TriangleCounter {
+    fn new() -> TriangleCounter {
+        TriangleCounter {
+            increment: 2,
+            current: 1,
+            sieve_prime: primal::Sieve::new(3),
+            sieve_from: 3,
+        }
+    }
+}
+
+impl Iterator for TriangleCounter {
+    type Item = usize;
+
+    fn next(&mut self) -> Option<usize> {
+        self.current += self.increment;
+        self.increment += 1;
+        // Form/update the prime sieve which will be usable externally
+        println!("{}", self.current);
+        if self.current > self.sieve_from {
+             println!("p0: {:?}", self.current*100);
+             let count = primal::estimate_prime_pi((self.current*100) as u64).1;
+             println!("p1: {:?}", count);
+             self.sieve_from = primal::estimate_nth_prime(count as u64).1 as usize;
+             println!("p2: {:?}", count);
+             self.sieve_prime = primal::Sieve::new(self.sieve_from);
+             println!("p3: {:?}", count);
+             println!("Prime count extended {:?}", self.sieve_from);
+        }
+        Some(self.current)
+    }
 }

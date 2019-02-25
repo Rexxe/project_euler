@@ -30,24 +30,97 @@ mod header_defs {
 use header_defs as hd;
 
 fn main() {
+    let mut current_product : u64 = 0;
+    let mut max_product_so_far = ProductInfo {
+        product : 0,
+        direction : Direction::Horiz,
+        anchor_x : 0,
+        anchor_y : 0,
+    };
+
     let horiz_size : u8 = 20;
     let vert_size : u8 = 20;
     for y in 0..vert_size {
         for x in 0..horiz_size {
             // Horizontal product
             if x < horiz_size - 3 {
+                current_product = (x..=(x+3))
+                    .fold(1 as u64, |prod : u64, i| prod * hd::GRID[y as usize][i as usize]);
+                if current_product > max_product_so_far.product {
+                    max_product_so_far.product = current_product;
+                    max_product_so_far.direction = Direction::Horiz;
+                    max_product_so_far.anchor_x = x;
+                    max_product_so_far.anchor_y = y;
+                }
                 println!("Horiz product for ({x},{y}) = {sum}",
                     x=x,
                     y=y,
-                    sum=(x..=(x+3))
-                        .fold(1 as u64, |prod : u64, i| prod * hd::GRID[y as usize][i as usize]));
+                    sum=current_product);
             }
             // Vertical product
-
+            if y < horiz_size - 3 {
+                current_product = (y..=(y+3))
+                    .fold(1 as u64, |prod : u64, i| prod * hd::GRID[x as usize][i as usize]);
+                if current_product > max_product_so_far.product {
+                    max_product_so_far.product = current_product;
+                    max_product_so_far.direction = Direction::Vert;
+                    max_product_so_far.anchor_x = x;
+                    max_product_so_far.anchor_y = y;
+                }
+                println!("Vert product for ({x},{y}) = {sum}",
+                    x=x,
+                    y=y,
+                    sum=current_product);
+            }
             // Diagonal right
-
+            if x < horiz_size - 3 && y < horiz_size - 3 {
+                current_product = (0..=(3))
+                    .fold(1 as u64, |prod : u64, i|
+                        prod * hd::GRID[(x as usize) + i as usize][(y as usize) + i as usize]);
+                if current_product > max_product_so_far.product {
+                    max_product_so_far.product = current_product;
+                    max_product_so_far.direction = Direction::Dr;
+                    max_product_so_far.anchor_x = x;
+                    max_product_so_far.anchor_y = y;
+                }
+                println!("Dr product for ({x},{y}) = {sum}",
+                    x=x,
+                    y=y,
+                    sum=current_product);
+            }
             // Diagonal left
-
+            if x >= 3 && y < horiz_size - 3 {
+                current_product = (0..=(3))
+                    .fold(1 as u64, |prod : u64, i|
+                        prod * hd::GRID[(x as usize) - i as usize][(y as usize) + i as usize]);
+                if current_product > max_product_so_far.product {
+                    max_product_so_far.product = current_product;
+                    max_product_so_far.direction = Direction::Dl;
+                    max_product_so_far.anchor_x = x;
+                    max_product_so_far.anchor_y = y;
+                }
+                println!("Dl product for ({x},{y}) = {sum}",
+                    x=x,
+                    y=y,
+                    sum=current_product);
+            }
         }
     }
+    println!("Max product : {:?}", max_product_so_far);
+}
+
+#[derive(Debug)]
+enum Direction {
+    Horiz = 1,
+    Vert = 2,
+    Dr = 3,
+    Dl = 4,
+}
+
+#[derive(Debug)]
+struct ProductInfo {
+    product : u64,
+    direction : Direction,
+    anchor_x : u8,
+    anchor_y : u8,
 }

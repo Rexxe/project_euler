@@ -34,7 +34,31 @@ pub fn solve_sudoku(puzzle: &mut Matrix) -> Vec<Step> {
 
 
     }
-
+    // // For temp testing purposes
+    // let test_step = Step {
+    //     row: 0,
+    //     col: 0,
+    //     val: 4,
+    //     method: MethodType::Guess(0),
+    //     notes: None,
+    //     taken: true,
+    // };
+    //
+    // let test_step_2 = Step {
+    //     row: 1,
+    //     col: 1,
+    //     val: 5,
+    //     method: MethodType::Ded,
+    //     notes: None,
+    //     taken: true,
+    // };
+    //
+    // puzzle.take_action(&mut vec![test_step, test_step_2], &mut all_steps_taken);
+    //
+    // puzzle.undo_actions_to_concrete_state(&mut all_steps_taken, &1);
+    //
+    // println!("{:#?}",all_steps_taken);
+    // temp
     all_steps_taken
 }
 
@@ -56,9 +80,16 @@ pub enum MethodType {
 }
 
 impl MethodType {
-    pub fn IsGuess(&self) -> bool {
+    pub fn is_guess_later(&self, &guess_pos : &i32) -> bool {
         match self {
-            Guess(_) => true,
+            MethodType::Guess(ind) => {
+                if ind >= &(guess_pos as u8) {
+                    true
+                }
+                else {
+                    false
+                }
+            },
             _ => false,
         }
     }

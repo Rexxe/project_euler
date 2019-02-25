@@ -23,20 +23,25 @@ impl Matrix {
         steps_taken.append(steps_to_take);
     }
 
-    pub fn undo_actions_to_concrete_state<'a>(&mut self, all_steps_taken: &mut Vec<Step<'a>>) {
-        let concrete_pos : usize = all_steps_taken.iter().enumerate()
-            .skip_while(|(pos, s)| !s.method.IsGuess())
-            .take(1).next().unwrap().0;
-
-
-
-
-
+    pub fn undo_action(&mut self, step: &Step) {
+        self.vals[step.row][step.col] = 0;
     }
 
-    // pub fn get_guess_number() {
-    //
-    // }
+    pub fn undo_actions_to_concrete_state<'a>(&mut self,
+        all_steps_taken: &mut Vec<Step<'a>>,
+        guess_pos: &i32) {
+
+        let concrete_pos : usize = match all_steps_taken.iter().enumerate()
+            .skip_while(|(pos, s)| !s.method.is_guess_later(guess_pos)).take(1).next() {
+
+            Some(pos) => pos.0,
+            None => return,
+        };
+        for step_pos in concrete_pos..all_steps_taken.len() {
+            self.undo_action(&all_steps_taken[step_pos]);
+        }
+        all_steps_taken.drain(concrete_pos..);
+    }
 
     // fn for loading in data row by row
     pub fn load_row(&mut self, row_to_load: &str, &row_index: &usize) -> Result<bool, String> {

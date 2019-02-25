@@ -17,6 +17,7 @@ fn main() {
         // println!("{}", *mat);
         solve_sudoku(&mut mat);
         println!("{}", *mat);
-        // break; // For the moment, break on the first loop so we can debug more easily
+        
+        break; // For the moment, break on the first loop so we can debug more easily
     }
 }

@@ -20,17 +20,14 @@ fn main() {
     let mut counter = TriangleCounter::new();
     let mut current_number : usize;
 
-    let mut max_so_far : usize = 0;
-
     loop {
         current_number = counter.next().unwrap();
-        if max_so_far > current_number {
-            println!("Wrapping began at {:?}", max_so_far);
-        }
-        max_so_far = current_number;
+        // if max_so_far > current_number {
+        //     println!("Wrapping began at {:?}", max_so_far);
+        // }
 
 
-        // println!("Current number = {}", );
+
 
 
 
@@ -81,6 +78,17 @@ impl Iterator for TriangleCounter {
              println!("p3: {:?}", count);
              println!("Prime count extended {:?}", self.sieve_from);
         }
+
         Some(self.current)
+    }
+}
+
+impl TriangleCounter {
+    pub fn get_prime_factors(&mut self) -> Vec<u32> {
+        let mut prime_factors : Vec<u32> = factorize(
+            &self.current,
+        );
+        prime_factors.sort();
+        prime_factors
     }
 }

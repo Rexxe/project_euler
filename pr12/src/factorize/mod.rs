@@ -2,6 +2,22 @@ extern crate primal;
 
 use primal::Sieve;
 
+pub fn factorize(&number_to_factorize: &u32, &max_prime: &usize) -> Vec<usize> {
+    let mut final_factors: Vec<usize> = Vec::new();
+        if factorize::attempt_factorization(
+            *&number_to_factorize as usize,
+            *&max_prime,
+            *&prime_count,
+            &mut final_factors,
+        ) == true
+        {
+            break;
+        }
+        prime_count += 20;
+    }
+    final_factors
+}
+
 pub fn attempt_factorization(
     mut number_to_factorize: usize,
     max_prime: usize,

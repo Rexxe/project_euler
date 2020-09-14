@@ -26,7 +26,8 @@ be expressed likewise:
 Therefore, the effect on T - the sum of M's digits - is directly related to the factors
 of the digits itself.  Hence if we find how each factor within the prime factorization
 affects digits and the perform said string of manipulations subsequently across the
-ever-increasing array of digits, we have all of the digits within the sum of
+ever-increasing array of digits, we have all of the digits within M and hence
+the value of the sum of the difference T
 
 
 -------------------------------------------------------------------------------------

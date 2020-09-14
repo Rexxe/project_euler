@@ -29,8 +29,8 @@ fn main() {
         if current_max_factor_count < final_factors.len() {
             current_max_factor_count = final_factors.len();
             println!(
-                "Number '{}' introduces New Max Factor Count: {}",
-                current_number, current_max_factor_count
+                "Number '{}' introduces New Max Factor Count: {} '{:?}'",
+                current_number, current_max_factor_count, final_factors
             );
         }
 
@@ -57,6 +57,7 @@ struct TriangleCounter {
     current: usize,
     sieve_prime: primal::Sieve,
     sieve_from: usize,
+    prime_count: i32,
 }
 
 impl TriangleCounter {
@@ -65,7 +66,8 @@ impl TriangleCounter {
             increment: 2,
             current: 1,
             sieve_prime: primal::Sieve::new(3),
-            sieve_from: 3,
+            sieve_from: 1,
+            prime_count: 1,
         }
     }
 }
@@ -79,12 +81,12 @@ impl Iterator for TriangleCounter {
         // Form/update the prime sieve which will be usable externally
         if self.current > self.sieve_from {
             println!("p0: {:?}", self.current * 100);
-            let count = primal::estimate_prime_pi((self.current * 100) as u64).1;
-            println!("p1: {:?}", count);
-            self.sieve_from = primal::estimate_nth_prime(count as u64).1 as usize;
-            println!("p2: {:?}", count);
+            self.prime_count = primal::estimate_prime_pi((self.current * 100) as u64).1 as i32;
+            println!("p1: {:?}", self.prime_count);
+            self.sieve_from = primal::estimate_nth_prime(self.prime_count as u64).1 as usize;
+            println!("p2: {:?}", self.prime_count);
             self.sieve_prime = primal::Sieve::new(self.sieve_from);
-            println!("p3: {:?}", count);
+            println!("p3: {:?}", self.prime_count);
             println!("Prime count extended {:?}", self.sieve_from);
         }
 
@@ -94,8 +96,8 @@ impl Iterator for TriangleCounter {
 
 impl TriangleCounter {
     pub fn get_prime_factors(&mut self) -> Vec<usize> {
-        let mut prime_factors: Vec<usize> = factorize::factorize(&self.current, &(10_000 as usize));
-        prime_factors.sort();
+        let /* mut */ prime_factors: Vec<usize> = factorize::factorize(&self.current, &self.sieve_prime);
+        //prime_factors.sort();
         prime_factors
     }
 }
